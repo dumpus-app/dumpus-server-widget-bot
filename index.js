@@ -26,7 +26,10 @@ fastify.get(`/:guildId`, async (request, reply) => {
     const guild = client.guilds.cache.get(guildId);
 
     if (!guild) {
-        return void reply.code(404);
+        reply.code(200);
+        return {
+            error: 'Guild not found'
+        }
     }
 
     return {
@@ -35,6 +38,14 @@ fastify.get(`/:guildId`, async (request, reply) => {
         member_count: guild.memberCount
     }
 
+});
+
+// handle 404
+fastify.setNotFoundHandler((request, reply) => {
+    reply.code(404);
+    return {
+        error: 'Not found'
+    }
 });
 
 client.on('guildCreate', async (guild) => {
