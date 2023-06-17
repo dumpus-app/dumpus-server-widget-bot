@@ -60,5 +60,11 @@ client.on('guildDelete', async (guild) => {
 
 });
 
-await fastify.listen({ port: process.env.PORT || 3000 });
+await fastify.listen({ port: process.env.PORT || 3000, host: process.env.HOST || '0.0.0.0' }, (err, address) => {
+    if (err) {
+        console.error(err);
+        process.exit(1);
+    }
+    console.log(`Listening on ${address}`);
+});
 await client.login(process.env.DISCORD_BOT_TOKEN);
